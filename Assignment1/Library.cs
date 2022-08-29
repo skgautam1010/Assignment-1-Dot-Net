@@ -59,8 +59,7 @@ namespace Assignment1
     
     class Library
     {
-       // static Dictionary<string, List<Book>> dict1 = new Dictionary<string, List<Book>>();
-        static List<Book> arr = new List<Book>();
+        static Dictionary<string, Book> dict1 = new Dictionary<string, Book>();
         static Book b1 = new Book();
 
         //Inserting the details of the books in the container
@@ -77,25 +76,31 @@ namespace Assignment1
             b1.lang = _lang;
             b1.LoT = _lot;
             //dict1.Add(_bookId, b1);
-            arr.Add(b1);
+           
+           dict1[b1.bookId] = b1;
         }
 
         //Displaying the detail of Every book stored in the Container
         public static void displaydata()
         {
-            foreach(var bookdisplay in arr)
+            foreach(KeyValuePair<string,Book>bookdisplay in dict1)
             {
+                
                 Console.WriteLine("=================================================");
-                Console.WriteLine("The bookid is: " + bookdisplay.bookId);
-                Console.WriteLine("The bookname is: " + bookdisplay.bookName);
-                Console.WriteLine("The isbn is: " + bookdisplay.isbn);
-                Console.WriteLine("The price is: " + bookdisplay.price);
-                Console.WriteLine("The publisher is: " + bookdisplay.publisher);
-                Console.WriteLine("The number of pages are: " + bookdisplay.numpages);
-                Console.WriteLine("The language is: " + bookdisplay.lang);
-                Console.WriteLine("The LoT is: " + bookdisplay.LoT);
-                Console.WriteLine("The summary is: " + bookdisplay.summary);
+                Console.WriteLine("The bookid is: " + bookdisplay.Value.bookId);
+                Console.WriteLine("The bookname is: " + bookdisplay.Value.bookName);
+                Console.WriteLine("The isbn is: " + bookdisplay.Value.isbn);
+                Console.WriteLine("The price is: " + bookdisplay.Value.price);
+                Console.WriteLine("The publisher is: " + bookdisplay.Value.publisher);
+                Console.WriteLine("The number of pages are: " + bookdisplay.Value.numpages);
+                Console.WriteLine("The language is: " + bookdisplay.Value.lang);
+                Console.WriteLine("The LoT is: " + bookdisplay.Value.LoT);
+                Console.WriteLine("The summary is: " + bookdisplay.Value.summary);
                 Console.WriteLine("=================================================");
+            }
+            if(dict1.Count<1)
+            {
+                Console.WriteLine("No Record Found");
             }
             
         }
@@ -103,19 +108,26 @@ namespace Assignment1
         // to remove the details of the books using BookId
         public static void removeBookDetail()
         {
+            Book book = new Book();
             Console.Write("Enter the Book Id: ");
             string BookId = Console.ReadLine();
-            foreach(var item in arr)
+          
+            if(dict1.ContainsKey(BookId))
             {
-                if (item.bookId==BookId)
-                {
-                    arr.Remove(item);
-                }
-                else
-                {
-                    Console.WriteLine("Invalid Book ID");
-                }
+                dict1.Remove(BookId);
+                Console.WriteLine("Data Deleted Successfully");
             }
+            else
+            {
+                Console.WriteLine("Invalid Book ID");
+            }
+           
+           
+            
+            //int index = arr.Find(y => y.Contains(BookId));
+            
+            
+            
         }
 
         //Main function to execute the program
@@ -127,7 +139,8 @@ namespace Assignment1
            
             while (flag)
             {
-                Console.WriteLine("1--> Data Entry\n 2--> Display Data\n 3--> Delete Data\n 4--> Exit\n");
+                Console.WriteLine("*********************** Welcome to Library Management System ********************************");
+                Console.WriteLine(" 1--> Enter Book Details\n 2--> Display Data\n 3--> Delete Data\n 4--> Exit\n");
                 Console.Write("Enter your choice: ");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
@@ -227,6 +240,9 @@ namespace Assignment1
                         removeBookDetail();
                         break;
                     case 4:
+                        Console.WriteLine("***************************");
+                        Console.WriteLine("Thanks and Visit Again");
+                        Console.WriteLine("***************************");
                         flag = false;
                         break;
                     default:
